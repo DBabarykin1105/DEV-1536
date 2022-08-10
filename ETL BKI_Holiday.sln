@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "ETL BKI_Holiday", "ETL BKI_Holiday.dtproj", "{EDEF9377-DE20-4CE9-B01F-F0C5FE420575}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDEF9377-DE20-4CE9-B01F-F0C5FE420575}.Development|Default.ActiveCfg = Development
+		{EDEF9377-DE20-4CE9-B01F-F0C5FE420575}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1DDF59D3-81AC-40DB-89D7-E8315D4687DF}
+	EndGlobalSection
+EndGlobal

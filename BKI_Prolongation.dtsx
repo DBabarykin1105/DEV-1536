@@ -1,0 +1,2640 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/1/2022 5:53:41 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="WS-MC-203"
+  DTS:CreatorName="MGC\DBabarykin"
+  DTS:DTSID="{334729A0-6F40-4807-B91F-50DE3883DE4D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.166"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Package2"
+  DTS:PackageType="5"
+  DTS:VersionBuild="46"
+  DTS:VersionGUID="{94E9114A-F3E0-46FF-B06F-F81FEA11CC7C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[MariaDB_MSA_BKI_SERVICE.BKI]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{57569FC9-08F0-45BA-8940-CEFB3F8AC775}"
+      DTS:ObjectName="MariaDB_MSA_BKI_SERVICE.BKI">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="uid=BKI;Dsn=MariaDB_MSA_BKI_SERVICE;">
+          <DTS:Password
+            DTS:Name="pwd"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAZBjb0K5GOUiYjoN8pAFmHQAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACjjm9YQnDAq6rnfEagea9CAAAAAASAAACgAAAAEAAAAFZvEupR0nbf4cK+FsGI9fsYAAAAiyGN4Pkp5YlxHMIvK6KXVn6IEVv4+Hq6FAAAAPVST+5ZJbZO5IjFajhk7HnJoJ8u</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[mck-t3-dwh.DWH_FIRE]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{22218555-C517-404D-9954-0CB98BB05923}"
+      DTS:ObjectName="mck-t3-dwh.DWH_FIRE">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=mck-t3-dwh;Initial Catalog=DWH_FIRE;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[mck-t3-dwh.LOGS_ERRORS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9A054667-39F8-476D-A688-23BE7CE1050A}"
+      DTS:ObjectName="mck-t3-dwh.LOGS_ERRORS">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=mck-t3-dwh;Initial Catalog=LOGS_ERRORS;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-BKI_Holiday-{9A054667-39F8-476D-A688-23BE7CE1050A}mck-t3-dwh.LOGS_ERRORS;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{76F82C7E-9B0D-4407-91BC-9A990C662660}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'EXT_PROLO_HISTORY' as TableName &#xA;FROM IGG.EXT_PROLO_HISTORY &#xA;WHERE ISNULL(CREATION_TIMESTAMP, '19000101') = ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForInsert">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'EXT_PROLO_HISTORY' as TableName 
+FROM IGG.EXT_PROLO_HISTORY 
+WHERE ISNULL(CREATION_TIMESTAMP, '19000101') = ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='2020.06.22 16:28:00';</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C49B17D7-D773-441B-85E5-2BFD0C7EDC7E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP&#xA;, 'EXT_PROLO_HISTORY_update' as TableName FROM IGG.EXT_PROLO_HISTORY &#xA;WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(UPD_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForUpdate">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP
+, 'EXT_PROLO_HISTORY_update' as TableName FROM IGG.EXT_PROLO_HISTORY 
+WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(UPD_TIMESTAMP, '19000101') &gt;='2020.06.22 16:28:00';</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DB4F31E0-0076-4864-8080-80205E141CB3}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="MSA_ETL_TimeStamp_PH">
+      <DTS:VariableValue
+        DTS:DataType="7">6/22/2020 4:28:00 PM</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\ETL BKI_Prolongation"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{d1aa792d-9539-44d6-878d-708288a57e4b}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ETL BKI_Prolongation">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{054ea930-ca72-4f42-a80d-6b775cc5a312}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="OrderForUpdate">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\ETL BKI_Prolongation\SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForInsert"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:Description="Задача выражения"
+          DTS:DTSID="{1af7bfe2-ba52-4ed6-bc96-dddd6e71f7bb}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForInsert"
+          DTS:TaskContact="Expression Task;Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForInsert]= &quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'EXT_PROLO_HISTORY' as TableName&#xA; FROM IGG.EXT_PROLO_HISTORY&#xA; WHERE ISNULL(CREATION_TIMESTAMP, '19000101') = ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ETL BKI_Prolongation\SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForUpdate"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:Description="Задача выражения"
+          DTS:DTSID="{fc09cb22-2fd5-4a72-81a0-b9549ad81604}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForUpdate"
+          DTS:TaskContact="Expression Task;Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForUpdate]= &quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'EXT_PROLO_HISTORY_update' as TableName&#xA; FROM IGG.EXT_PROLO_HISTORY&#xA; WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(UPD_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ETL BKI_Prolongation\Update MSA_EXT_PROLO_HISTORY"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{9141e9ed-8816-4d07-abec-34de112a1fc6}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update MSA_EXT_PROLO_HISTORY"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{57569FC9-08F0-45BA-8940-CEFB3F8AC775}"
+              SQLTask:SqlStatementSource="update ext_prolo_history p &#xA;  join stage_ext_prolo_history s on s.INC_ID = p.INC_ID&#xA;   set p.ZVNUM = s.ZVNUM&#xA;     , p.APPLICATION_NUMBER = s.APPLICATION_NUMBER&#xA;     , p.TERM = s.TERM&#xA;     , p.AMOUNT = s.AMOUNT&#xA;     , p.STATUS = s.STATUS&#xA;     , p.REGISTRATIONDATE = s.REGISTRATIONDATE&#xA;     , p.EXECUTIONDATE = s.EXECUTIONDATE&#xA;     , p.UPD_TIMESTAMP = s.UPD_TIMESTAMP" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{228486da-6f6e-4196-bd63-60692c096d7f}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Забрать из DWH_EXT_PROLO_HISTORY_ForInsert"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Преобразование данных;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  description="Преобразование данных"
+                  name="convertations"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Inputs[Входные данные преобразования данных]"
+                      name="Входные данные преобразования данных">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Inputs[Входные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          cachedDataType="wstr"
+                          cachedLength="32"
+                          cachedName="APPLICATION_ACCOUNT"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные преобразования данных]"
+                      exclusionGroup="1"
+                      name="Выходные данные преобразования данных"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Inputs[Входные данные преобразования данных]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          length="10"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          name="APPLICATION_ACCOUNT"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Указывает входной столбец, служащий источником данных для преобразования."
+                              name="SourceInputColumnLineageID">#{Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник "OLE DB".Outputs[Выход источника "OLE DB"].Columns[APPLICATION_ACCOUNT]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, используются ли в столбце более производительные, не зависящие от локалей процедуры синтаксического анализа."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные ошибок преобразования данных]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Выходные данные ошибок преобразования данных"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Inputs[Входные данные преобразования данных]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Преобразование данных;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  description="Преобразование данных"
+                  name="ErrorsConvertations"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Inputs[Входные данные преобразования данных]"
+                      name="Входные данные преобразования данных">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Inputs[Входные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          cachedDataType="wstr"
+                          cachedLength="32"
+                          cachedName="APPLICATION_ACCOUNT"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные преобразования данных]"
+                      exclusionGroup="1"
+                      name="Выходные данные преобразования данных"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Inputs[Входные данные преобразования данных]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          codePage="1251"
+                          dataType="str"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          length="20"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          name="APPLICATION_ACCOUNT"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Указывает входной столбец, служащий источником данных для преобразования."
+                              name="SourceInputColumnLineageID">#{Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник "OLE DB".Outputs[Вывод ошибок источника "OLE DB"].Columns[APPLICATION_ACCOUNT]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, используются ли в столбце более производительные, не зависящие от локалей процедуры синтаксического анализа."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Выходные данные ошибок преобразования данных"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Inputs[Входные данные преобразования данных]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="Источник &quot;OLE DB&quot;"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">"IGG"."EXT_CONTRACT_HOLIDAY_HIST"</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT        INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP
+FROM            IGG.EXT_PROLO_HISTORY
+WHERE         CREATION_TIMESTAMP &gt;= '20210701'</property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable">User::EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForInsert</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[mck-t3-dwh.DWH_FIRE]"
+                      connectionManagerRefId="Package.ConnectionManagers[mck-t3-dwh.DWH_FIRE]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[INC_ID]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[INC_ID]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[INC_ID]"
+                          name="INC_ID"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ZVNUM]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ZVNUM]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ZVNUM]"
+                          name="ZVNUM"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TERM]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TERM]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TERM]"
+                          name="TERM"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[AMOUNT]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[AMOUNT]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[AMOUNT]"
+                          name="AMOUNT"
+                          precision="16"
+                          scale="2"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[REGISTRATIONDATE]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]"
+                          name="REGISTRATIONDATE"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EXECUTIONDATE]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]"
+                          name="EXECUTIONDATE"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CREATION_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]"
+                          name="CREATION_TIMESTAMP"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UPD_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]"
+                          name="UPD_TIMESTAMP"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STATUS]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STATUS]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STATUS]"
+                          name="STATUS"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
+                          length="32"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          name="APPLICATION_ACCOUNT"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          name="ETL_TIMESTAMP"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                          codePage="1251"
+                          dataType="str"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                          length="17"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                          name="TableName"
+                          truncationRowDisposition="RedirectRow" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[INC_ID]"
+                          dataType="i8"
+                          name="INC_ID" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ZVNUM]"
+                          dataType="i8"
+                          name="ZVNUM" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TERM]"
+                          dataType="i2"
+                          name="TERM" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[AMOUNT]"
+                          dataType="numeric"
+                          name="AMOUNT"
+                          precision="16"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[REGISTRATIONDATE]"
+                          dataType="dbTimeStamp"
+                          name="REGISTRATIONDATE" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EXECUTIONDATE]"
+                          dataType="dbTimeStamp"
+                          name="EXECUTIONDATE" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CREATION_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="CREATION_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UPD_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="UPD_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STATUS]"
+                          dataType="i4"
+                          name="STATUS" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
+                          dataType="wstr"
+                          length="32"
+                          name="APPLICATION_ACCOUNT" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="ETL_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                          codePage="1251"
+                          dataType="str"
+                          length="17"
+                          name="TableName" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[INC_ID]"
+                          dataType="i8"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[INC_ID]"
+                          name="INC_ID" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ZVNUM]"
+                          dataType="i8"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ZVNUM]"
+                          name="ZVNUM" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          dataType="wstr"
+                          length="32"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          name="APPLICATION_ACCOUNT" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TERM]"
+                          dataType="i2"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TERM]"
+                          name="TERM" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[AMOUNT]"
+                          dataType="numeric"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[AMOUNT]"
+                          name="AMOUNT"
+                          precision="16"
+                          scale="2" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STATUS]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STATUS]"
+                          name="STATUS" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]"
+                          name="REGISTRATIONDATE" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]"
+                          name="EXECUTIONDATE" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]"
+                          name="CREATION_TIMESTAMP" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]"
+                          name="UPD_TIMESTAMP" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          name="ETL_TIMESTAMP" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                          codePage="1251"
+                          dataType="str"
+                          length="17"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                          name="TableName" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC"
+                  componentClassID="Microsoft.SSISODBCDst"
+                  contactInfo="Назначение ODBC;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
+                  description="Назначение ODBC"
+                  name="Назначение ODBC"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Имя таблицы для извлечения данных."
+                      expressionType="Notify"
+                      name="TableName">ext_prolo_history</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Укажите число строк, извлекаемых в одном пакете."
+                      expressionType="Notify"
+                      name="BatchSize">1000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Число строк, вставляемых в одной и той же транзакции."
+                      expressionType="Notify"
+                      name="TransactionSize">1000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Определяет размер фрагмента при выделении памяти для столбцов больших объектов"
+                      expressionType="Notify"
+                      name="LobChunkSize">32768</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Число секунд для ожидания выполнения инструкции SQL перед возвратом в приложение."
+                      expressionType="Notify"
+                      name="StatementTimeout">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Кодовая страница столбца, используемая, когда сведения о кодовой странице недоступны в источнике данных."
+                      expressionType="Notify"
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Метод, используемый для вставки данных. Возможные значения: &quot;Пакет&quot; и &quot;Построчно&quot;."
+                      expressionType="Notify"
+                      name="InsertMethod">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Тип данных C в ODBC для привязки числовых данных."
+                      expressionType="Notify"
+                      name="BindNumericAs">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Определяет, как компонент будет привязывать столбцы с типами строк байтовых или многобайтовых символов (SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). Варианты: Юникод (SQL_C_WCHAR) и ANSI (SQL_C_CHAR)."
+                      expressionType="Notify"
+                      name="BindCharColumnsAs">0</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Connections[ODBCConnection]"
+                      connectionManagerID="Package.ConnectionManagers[MariaDB_MSA_BKI_SERVICE.BKI]"
+                      connectionManagerRefId="Package.ConnectionManagers[MariaDB_MSA_BKI_SERVICE.BKI]"
+                      description="Соединение среды выполнения ODBC, используемое для доступа к базе данных."
+                      name="ODBCConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения ODBC"
+                      truncationRowDisposition="FailComponent">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[INC_ID]"
+                          cachedDataType="i8"
+                          cachedName="INC_ID"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[INC_ID]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[INC_ID]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[ZVNUM]"
+                          cachedDataType="i8"
+                          cachedName="ZVNUM"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[ZVNUM]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ZVNUM]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[TERM]"
+                          cachedDataType="i2"
+                          cachedName="TERM"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[TERM]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TERM]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[AMOUNT]"
+                          cachedDataType="numeric"
+                          cachedName="AMOUNT"
+                          cachedPrecision="16"
+                          cachedScale="2"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[AMOUNT]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[AMOUNT]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[REGISTRATIONDATE]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="REGISTRATIONDATE"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[REGISTRATIONDATE]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[EXECUTIONDATE]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="EXECUTIONDATE"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[EXECUTIONDATE]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[CREATION_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="CREATION_TIMESTAMP"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[CREATION_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[UPD_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="UPD_TIMESTAMP"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[UPD_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[STATUS]"
+                          cachedDataType="i4"
+                          cachedName="STATUS"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[STATUS]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STATUS]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[ETL_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ETL_TIMESTAMP"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[ETL_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].Columns[APPLICATION_ACCOUNT]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="APPLICATION_ACCOUNT"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[APPLICATION_NUMBER]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[INC_ID]"
+                          dataType="i4"
+                          name="INC_ID" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[ZVNUM]"
+                          dataType="i4"
+                          name="ZVNUM" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[APPLICATION_NUMBER]"
+                          dataType="wstr"
+                          length="10"
+                          name="APPLICATION_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[TERM]"
+                          dataType="i4"
+                          name="TERM" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[AMOUNT]"
+                          dataType="numeric"
+                          name="AMOUNT"
+                          precision="19"
+                          scale="4" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[STATUS]"
+                          dataType="i4"
+                          name="STATUS" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[REGISTRATIONDATE]"
+                          dataType="dbTimeStamp"
+                          name="REGISTRATIONDATE" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[EXECUTIONDATE]"
+                          dataType="dbTimeStamp"
+                          name="EXECUTIONDATE" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[CREATION_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="CREATION_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[UPD_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="UPD_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="ETL_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC].ExternalColumns[ProlongationPeriodEndDate]"
+                          dataType="wstr"
+                          length="15"
+                          name="ProlongationPeriodEndDate" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Outputs[Ошибка при выводе назначения ODBC]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Ошибка при выводе назначения ODBC"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Outputs[Ошибка при выводе назначения ODBC].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Outputs[Ошибка при выводе назначения ODBC].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Outputs[Ошибка при выводе назначения ODBC].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Outputs[Ошибка при выводе назначения ODBC].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="Ошибки вставки EXT_PROLO_HISTORY"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[TABLEERRORS]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[mck-t3-dwh.LOGS_ERRORS]"
+                      connectionManagerRefId="Package.ConnectionManagers[mck-t3-dwh.LOGS_ERRORS]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ETL_TIMESTAMP"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
+                          cachedCodepage="1251"
+                          cachedDataType="str"
+                          cachedLength="17"
+                          cachedName="TableName"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          cachedDataType="i4"
+                          cachedName="ErrorCode"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorCode]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          cachedDataType="i4"
+                          cachedName="ErrorColumn"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorColumn]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          cachedCodepage="1251"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="APPLICATION_ACCOUNT"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
+                          codePage="1251"
+                          dataType="str"
+                          length="255"
+                          name="TABLENAME" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
+                          codePage="1251"
+                          dataType="str"
+                          length="20"
+                          name="APPLICATION_ACCOUNT" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="ETL_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorCode]"
+                          codePage="1251"
+                          dataType="str"
+                          length="50"
+                          name="ErrorCode" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorColumn]"
+                          codePage="1251"
+                          dataType="str"
+                          length="255"
+                          name="ErrorColumn" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert.Paths[Вывод ошибок источника &quot;OLE DB&quot;]"
+                  endId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Inputs[Входные данные преобразования данных]"
+                  name="Вывод ошибок источника &quot;OLE DB&quot;"
+                  startId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]" />
+                <path
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Inputs[Входные данные преобразования данных]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                <path
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert.Paths[Выходные данные преобразования данных]"
+                  endId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC.Inputs[Вход назначения ODBC]"
+                  name="Выходные данные преобразования данных"
+                  startId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations.Outputs[Выходные данные преобразования данных]" />
+                <path
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert.Paths[Выходные данные преобразования данных1]"
+                  endId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выходные данные преобразования данных"
+                  startId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations.Outputs[Выходные данные преобразования данных]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{3ae2743c-4440-46d7-a511-5357e66d4e17}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Преобразование данных;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  description="Преобразование данных"
+                  name="convertations"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Inputs[Входные данные преобразования данных]"
+                      name="Входные данные преобразования данных">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Inputs[Входные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          cachedDataType="wstr"
+                          cachedLength="32"
+                          cachedName="APPLICATION_ACCOUNT"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные преобразования данных]"
+                      exclusionGroup="1"
+                      name="Выходные данные преобразования данных"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Inputs[Входные данные преобразования данных]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          length="10"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          name="APPLICATION_ACCOUNT"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Указывает входной столбец, служащий источником данных для преобразования."
+                              name="SourceInputColumnLineageID">#{Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник "OLE DB" update.Outputs[Выход источника "OLE DB"].Columns[APPLICATION_ACCOUNT]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, используются ли в столбце более производительные, не зависящие от локалей процедуры синтаксического анализа."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные ошибок преобразования данных]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Выходные данные ошибок преобразования данных"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Inputs[Входные данные преобразования данных]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Преобразование данных;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  description="Преобразование данных"
+                  name="ErrorsConvertations"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Inputs[Входные данные преобразования данных]"
+                      name="Входные данные преобразования данных">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Inputs[Входные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          cachedDataType="wstr"
+                          cachedLength="32"
+                          cachedName="APPLICATION_ACCOUNT"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные преобразования данных]"
+                      exclusionGroup="1"
+                      name="Выходные данные преобразования данных"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Inputs[Входные данные преобразования данных]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          codePage="1251"
+                          dataType="str"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          length="20"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]"
+                          name="APPLICATION_ACCOUNT"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Указывает входной столбец, служащий источником данных для преобразования."
+                              name="SourceInputColumnLineageID">#{Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник "OLE DB" update.Outputs[Вывод ошибок источника "OLE DB"].Columns[APPLICATION_ACCOUNT]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, используются ли в столбце более производительные, не зависящие от локалей процедуры синтаксического анализа."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Выходные данные ошибок преобразования данных"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Inputs[Входные данные преобразования данных]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные ошибок преобразования данных].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="Источник &quot;OLE DB&quot; update"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable">User::EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForUpdate</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[mck-t3-dwh.DWH_FIRE]"
+                      connectionManagerRefId="Package.ConnectionManagers[mck-t3-dwh.DWH_FIRE]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[INC_ID]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[INC_ID]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[INC_ID]"
+                          name="INC_ID"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ZVNUM]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ZVNUM]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ZVNUM]"
+                          name="ZVNUM"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
+                          length="32"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          name="APPLICATION_ACCOUNT"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TERM]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TERM]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TERM]"
+                          name="TERM"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[AMOUNT]"
+                          dataType="numeric"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[AMOUNT]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[AMOUNT]"
+                          name="AMOUNT"
+                          precision="16"
+                          scale="2"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STATUS]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STATUS]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STATUS]"
+                          name="STATUS"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[REGISTRATIONDATE]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]"
+                          name="REGISTRATIONDATE"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EXECUTIONDATE]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]"
+                          name="EXECUTIONDATE"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CREATION_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]"
+                          name="CREATION_TIMESTAMP"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UPD_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]"
+                          name="UPD_TIMESTAMP"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          name="ETL_TIMESTAMP"
+                          truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                          codePage="1251"
+                          dataType="str"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="RedirectRow"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                          length="24"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                          name="TableName"
+                          truncationRowDisposition="RedirectRow" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[INC_ID]"
+                          dataType="i8"
+                          name="INC_ID" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ZVNUM]"
+                          dataType="i8"
+                          name="ZVNUM" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
+                          dataType="wstr"
+                          length="32"
+                          name="APPLICATION_ACCOUNT" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TERM]"
+                          dataType="i2"
+                          name="TERM" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[AMOUNT]"
+                          dataType="numeric"
+                          name="AMOUNT"
+                          precision="16"
+                          scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STATUS]"
+                          dataType="i4"
+                          name="STATUS" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[REGISTRATIONDATE]"
+                          dataType="dbTimeStamp"
+                          name="REGISTRATIONDATE" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EXECUTIONDATE]"
+                          dataType="dbTimeStamp"
+                          name="EXECUTIONDATE" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CREATION_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="CREATION_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UPD_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="UPD_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="ETL_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                          codePage="1251"
+                          dataType="str"
+                          length="24"
+                          name="TableName" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[INC_ID]"
+                          dataType="i8"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[INC_ID]"
+                          name="INC_ID" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ZVNUM]"
+                          dataType="i8"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ZVNUM]"
+                          name="ZVNUM" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          dataType="wstr"
+                          length="32"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          name="APPLICATION_ACCOUNT" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TERM]"
+                          dataType="i2"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TERM]"
+                          name="TERM" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[AMOUNT]"
+                          dataType="numeric"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[AMOUNT]"
+                          name="AMOUNT"
+                          precision="16"
+                          scale="2" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STATUS]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STATUS]"
+                          name="STATUS" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]"
+                          name="REGISTRATIONDATE" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]"
+                          name="EXECUTIONDATE" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]"
+                          name="CREATION_TIMESTAMP" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]"
+                          name="UPD_TIMESTAMP" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          name="ETL_TIMESTAMP" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                          codePage="1251"
+                          dataType="str"
+                          length="24"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                          name="TableName" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update"
+                  componentClassID="Microsoft.SSISODBCDst"
+                  contactInfo="Назначение ODBC;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
+                  description="Назначение ODBC"
+                  name="Назначение ODBC for update"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Имя таблицы для извлечения данных."
+                      expressionType="Notify"
+                      name="TableName">stage_ext_prolo_history</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Укажите число строк, извлекаемых в одном пакете."
+                      expressionType="Notify"
+                      name="BatchSize">1000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Число строк, вставляемых в одной и той же транзакции."
+                      expressionType="Notify"
+                      name="TransactionSize">1000</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Определяет размер фрагмента при выделении памяти для столбцов больших объектов"
+                      expressionType="Notify"
+                      name="LobChunkSize">32768</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Число секунд для ожидания выполнения инструкции SQL перед возвратом в приложение."
+                      expressionType="Notify"
+                      name="StatementTimeout">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Кодовая страница столбца, используемая, когда сведения о кодовой странице недоступны в источнике данных."
+                      expressionType="Notify"
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Метод, используемый для вставки данных. Возможные значения: &quot;Пакет&quot; и &quot;Построчно&quot;."
+                      expressionType="Notify"
+                      name="InsertMethod">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Тип данных C в ODBC для привязки числовых данных."
+                      expressionType="Notify"
+                      name="BindNumericAs">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Определяет, как компонент будет привязывать столбцы с типами строк байтовых или многобайтовых символов (SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). Варианты: Юникод (SQL_C_WCHAR) и ANSI (SQL_C_CHAR)."
+                      expressionType="Notify"
+                      name="BindCharColumnsAs">0</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Connections[ODBCConnection]"
+                      connectionManagerID="Package.ConnectionManagers[MariaDB_MSA_BKI_SERVICE.BKI]"
+                      connectionManagerRefId="Package.ConnectionManagers[MariaDB_MSA_BKI_SERVICE.BKI]"
+                      description="Соединение среды выполнения ODBC, используемое для доступа к базе данных."
+                      name="ODBCConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения ODBC"
+                      truncationRowDisposition="FailComponent">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[INC_ID]"
+                          cachedDataType="i8"
+                          cachedName="INC_ID"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[INC_ID]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[INC_ID]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[ZVNUM]"
+                          cachedDataType="i8"
+                          cachedName="ZVNUM"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[ZVNUM]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ZVNUM]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[TERM]"
+                          cachedDataType="i2"
+                          cachedName="TERM"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[TERM]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TERM]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[AMOUNT]"
+                          cachedDataType="numeric"
+                          cachedName="AMOUNT"
+                          cachedPrecision="16"
+                          cachedScale="2"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[AMOUNT]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[AMOUNT]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[STATUS]"
+                          cachedDataType="i4"
+                          cachedName="STATUS"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[STATUS]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STATUS]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[REGISTRATIONDATE]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="REGISTRATIONDATE"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[REGISTRATIONDATE]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGISTRATIONDATE]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[EXECUTIONDATE]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="EXECUTIONDATE"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[EXECUTIONDATE]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EXECUTIONDATE]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[CREATION_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="CREATION_TIMESTAMP"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[CREATION_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CREATION_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[UPD_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="UPD_TIMESTAMP"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[UPD_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UPD_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[ETL_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ETL_TIMESTAMP"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[ETL_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].Columns[APPLICATION_ACCOUNT]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="APPLICATION_ACCOUNT"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[APPLICATION_NUMBER]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[INC_ID]"
+                          dataType="i4"
+                          name="INC_ID" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[ZVNUM]"
+                          dataType="i4"
+                          name="ZVNUM" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[APPLICATION_NUMBER]"
+                          dataType="wstr"
+                          length="10"
+                          name="APPLICATION_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[TERM]"
+                          dataType="i4"
+                          name="TERM" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[AMOUNT]"
+                          dataType="numeric"
+                          name="AMOUNT"
+                          precision="19"
+                          scale="4" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[STATUS]"
+                          dataType="i4"
+                          name="STATUS" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[REGISTRATIONDATE]"
+                          dataType="dbTimeStamp"
+                          name="REGISTRATIONDATE" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[EXECUTIONDATE]"
+                          dataType="dbTimeStamp"
+                          name="EXECUTIONDATE" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[CREATION_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="CREATION_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[UPD_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="UPD_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="ETL_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC].ExternalColumns[ProlongationPeriodEndDate]"
+                          dataType="wstr"
+                          length="15"
+                          name="ProlongationPeriodEndDate" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Outputs[Ошибка при выводе назначения ODBC]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Ошибка при выводе назначения ODBC"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Outputs[Ошибка при выводе назначения ODBC].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Outputs[Ошибка при выводе назначения ODBC].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Outputs[Ошибка при выводе назначения ODBC].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Outputs[Ошибка при выводе назначения ODBC].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="Ошибки обновления EXT_PROLO_HISTORY"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[TABLEERRORS]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[mck-t3-dwh.LOGS_ERRORS]"
+                      connectionManagerRefId="Package.ConnectionManagers[mck-t3-dwh.LOGS_ERRORS]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ETL_TIMESTAMP"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
+                          cachedCodepage="1251"
+                          cachedDataType="str"
+                          cachedLength="24"
+                          cachedName="TableName"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          cachedDataType="i4"
+                          cachedName="ErrorCode"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorCode]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          cachedDataType="i4"
+                          cachedName="ErrorColumn"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorColumn]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[APPLICATION_ACCOUNT]"
+                          cachedCodepage="1251"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="APPLICATION_ACCOUNT"
+                          externalMetadataColumnId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные преобразования данных].Columns[APPLICATION_ACCOUNT]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
+                          codePage="1251"
+                          dataType="str"
+                          length="255"
+                          name="TABLENAME" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
+                          codePage="1251"
+                          dataType="str"
+                          length="20"
+                          name="APPLICATION_ACCOUNT" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
+                          dataType="dbTimeStamp"
+                          name="ETL_TIMESTAMP" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorCode]"
+                          codePage="1251"
+                          dataType="str"
+                          length="50"
+                          name="ErrorCode" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorColumn]"
+                          codePage="1251"
+                          dataType="str"
+                          length="255"
+                          name="ErrorColumn" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate.Paths[Вывод ошибок источника &quot;OLE DB&quot;]"
+                  endId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Inputs[Входные данные преобразования данных]"
+                  name="Вывод ошибок источника &quot;OLE DB&quot;"
+                  startId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]" />
+                <path
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Inputs[Входные данные преобразования данных]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                <path
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate.Paths[Выходные данные преобразования данных]"
+                  endId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update.Inputs[Вход назначения ODBC]"
+                  name="Выходные данные преобразования данных"
+                  startId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations.Outputs[Выходные данные преобразования данных]" />
+                <path
+                  refId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate.Paths[Выходные данные преобразования данных1]"
+                  endId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выходные данные преобразования данных"
+                  startId="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations.Outputs[Выходные данные преобразования данных]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ETL BKI_Prolongation\Получить MSA_EXT_PROLO_HISTORY_ETL_TIMESTAMP_MAX"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{d0589cd7-0837-47b3-a0d0-ea7280d891da}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:ExecValue="6/22/2022 4:28:02 PM"
+          DTS:ExecValueType="7"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Получить MSA_EXT_PROLO_HISTORY_ETL_TIMESTAMP_MAX"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{57569FC9-08F0-45BA-8940-CEFB3F8AC775}"
+              SQLTask:SqlStatementSource="SELECT MAX(ETL_TIMESTAMP) as ETL_TIMESTAMP FROM msa_bki_service.ext_prolo_history"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="1"
+                SQLTask:DtsVariableName="User::MSA_ETL_TimeStamp_PH" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ETL BKI_Prolongation\Удаление из MSA_stage_ext_prolo_history"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{1f91291c-fb98-4ae4-b86c-21c62d9fd89a}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Удаление из MSA_stage_ext_prolo_history"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{57569FC9-08F0-45BA-8940-CEFB3F8AC775}"
+              SQLTask:SqlStatementSource="delete from stage_ext_prolo_history;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{08c3b4ab-77ad-4e1b-b850-462911015fdb}"
+          DTS:From="Package\ETL BKI_Prolongation\Получить MSA_EXT_PROLO_HISTORY_ETL_TIMESTAMP_MAX"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\ETL BKI_Prolongation\SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForInsert" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{4f11f68c-a916-4d87-b996-c81c539bc1a6}"
+          DTS:From="Package\ETL BKI_Prolongation\SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForInsert"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 1"
+          DTS:To="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{0c16be5a-df96-4fc1-bb6c-fbccfc06b156}"
+          DTS:From="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 2"
+          DTS:To="Package\ETL BKI_Prolongation\Update MSA_EXT_PROLO_HISTORY" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{BAD27AC6-FE59-4995-97FA-7C7A689FA762}"
+          DTS:From="Package\ETL BKI_Prolongation\SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForUpdate"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 3"
+          DTS:To="Package\ETL BKI_Prolongation\Удаление из MSA_stage_ext_prolo_history" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{85f4de3f-a408-422a-82a7-64460f51bd6e}"
+          DTS:From="Package\ETL BKI_Prolongation\Получить MSA_EXT_PROLO_HISTORY_ETL_TIMESTAMP_MAX"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 4"
+          DTS:To="Package\ETL BKI_Prolongation\SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForUpdate" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{15DBD14C-6618-42EE-99DE-6C56A26BE8DA}"
+          DTS:From="Package\ETL BKI_Prolongation\Удаление из MSA_stage_ext_prolo_history"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 5"
+          DTS:To="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,81"
+          Id="Package\ETL BKI_Prolongation\SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForInsert"
+          TopLeft="34,160" />
+        <NodeLayout
+          Size="185,78"
+          Id="Package\ETL BKI_Prolongation\SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForUpdate"
+          TopLeft="319,161" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\ETL BKI_Prolongation\Update MSA_EXT_PROLO_HISTORY"
+          TopLeft="299,468" />
+        <NodeLayout
+          Size="219,55"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert"
+          TopLeft="13,290" />
+        <NodeLayout
+          Size="327,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate"
+          TopLeft="253,371" />
+        <NodeLayout
+          Size="375,42"
+          Id="Package\ETL BKI_Prolongation\Получить MSA_EXT_PROLO_HISTORY_ETL_TIMESTAMP_MAX"
+          TopLeft="162,10" />
+        <NodeLayout
+          Size="208,57"
+          Id="Package\ETL BKI_Prolongation\Удаление из MSA_stage_ext_prolo_history"
+          TopLeft="315,281" />
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение]"
+          TopLeft="288.333333333333,52">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-165.833333333333,108"
+              Start="0,0"
+              End="-165.833333333333,100.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.4753053637812" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,39.4753053637812"
+                    Point2="0,43.4753053637812"
+                    Point3="-4,43.4753053637812" />
+                  <mssgle:LineSegment
+                    End="-161.833333333333,43.4753053637812" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-161.833333333333,43.4753053637812"
+                    Point2="-165.833333333333,43.4753053637812"
+                    Point3="-165.833333333333,47.4753053637812" />
+                  <mssgle:LineSegment
+                    End="-165.833333333333,100.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="122.5,241">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="420,413">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55"
+              Start="0,0"
+              End="0,47.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="415.25,239">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 4]"
+          TopLeft="411.083333333333,52">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,109"
+              Start="0,0"
+              End="0,101.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,101.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation.PrecedenceConstraints[Ограничение 5]"
+          TopLeft="417.75,338">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="686,582"
+          Size="686,625"
+          Id="Package\ETL BKI_Prolongation"
+          TopLeft="140,0" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="168,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC"
+          TopLeft="48,247" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\ErrorsConvertations"
+          TopLeft="417,155" />
+        <NodeLayout
+          Size="269,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY"
+          TopLeft="383,242" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;"
+          TopLeft="163,50" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\convertations"
+          TopLeft="56,158" />
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert.Paths[Выходные данные преобразования данных1]"
+          TopLeft="517.25,197">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert.Paths[Выходные данные преобразования данных]"
+          TopLeft="129.5,200">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="222,92">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-95,66"
+              Start="0,0"
+              End="-95,58.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.7628865979381" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.7628865979381"
+                    Point2="0,26.7628865979381"
+                    Point3="-4,26.7628865979381" />
+                  <mssgle:LineSegment
+                    End="-91,26.7628865979381" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-91,26.7628865979381"
+                    Point2="-95,26.7628865979381"
+                    Point3="-95,30.7628865979381" />
+                  <mssgle:LineSegment
+                    End="-95,58.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert.Paths[Вывод ошибок источника &quot;OLE DB&quot;]"
+          TopLeft="277,92">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="240,63"
+              Start="0,0"
+              End="240,55.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5463917525773" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.5463917525773"
+                    Point2="0,25.5463917525773"
+                    Point3="4,25.5463917525773" />
+                  <mssgle:LineSegment
+                    End="236,25.5463917525773" />
+                  <mssgle:CubicBezierSegment
+                    Point1="236,25.5463917525773"
+                    Point2="240,25.5463917525773"
+                    Point3="240,29.5463917525773" />
+                  <mssgle:LineSegment
+                    End="240,55.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="38.66013671875,30.5463917525773,162.6797265625,10.9501953125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Назначение ODBC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Источник &quot;OLE DB&quot;">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForInsert\Ошибки вставки EXT_PROLO_HISTORY">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update"
+          TopLeft="90,246" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\ErrorsConvertations"
+          TopLeft="451,143" />
+        <NodeLayout
+          Size="290,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY"
+          TopLeft="399,247" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update"
+          TopLeft="286,22" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\convertations"
+          TopLeft="130,149" />
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate.Paths[Выходные данные преобразования данных1]"
+          TopLeft="540.5,185">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,62"
+              Start="0,0"
+              End="0,54.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate.Paths[Выходные данные преобразования данных]"
+          TopLeft="200.5,191">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55"
+              Start="0,0"
+              End="0,47.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="345,64">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-144,85"
+              Start="0,0"
+              End="-144,77.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.46735395189" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30.46735395189"
+                    Point2="0,34.46735395189"
+                    Point3="-4,34.46735395189" />
+                  <mssgle:LineSegment
+                    End="-140,34.46735395189" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-140,34.46735395189"
+                    Point2="-144,34.46735395189"
+                    Point3="-144,38.46735395189" />
+                  <mssgle:LineSegment
+                    End="-144,77.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate.Paths[Вывод ошибок источника &quot;OLE DB&quot;]"
+          TopLeft="400,64">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="137,79"
+              Start="0,0"
+              End="137,71.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.0343642611684" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.0343642611684"
+                    Point2="0,32.0343642611684"
+                    Point3="4,32.0343642611684" />
+                  <mssgle:LineSegment
+                    End="133,32.0343642611684" />
+                  <mssgle:CubicBezierSegment
+                    Point1="133,32.0343642611684"
+                    Point2="137,32.0343642611684"
+                    Point3="137,36.0343642611684" />
+                  <mssgle:LineSegment
+                    End="137,71.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-12.83986328125,37.0343642611684,162.6797265625,10.9501953125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Назначение ODBC for update">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Источник &quot;OLE DB&quot; update">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Prolongation\Забрать из DWH_EXT_PROLO_HISTORY_ForUpdate\Ошибки обновления EXT_PROLO_HISTORY">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
