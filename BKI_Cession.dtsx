@@ -7,12 +7,12 @@
   DTS:CreatorName="MGC\DBabarykin"
   DTS:DTSID="{F5788D03-7F1F-450F-B727-A1B8080DA350}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.166"
+  DTS:LastModifiedProductVersion="16.0.845.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="BKI_Cession"
   DTS:PackageType="5"
-  DTS:VersionBuild="8"
-  DTS:VersionGUID="{3A38C0CD-CA49-45B5-8BEC-8A82E7C47728}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{ABB657AC-43CF-4211-BAEE-9126164B60AA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="pwd"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAZBjb0K5GOUiYjoN8pAFmHQAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACgauMsD+XJX5F+2DoKLebPAAAAAASAAACgAAAAEAAAAOyZUlQXmJUZhUc8dehvI2sYAAAAwghoy2/OyhhiGUS3k/GvUhigpkk0PmXwFAAAADnJJ02klA2hew7CpcIUHhjbmnhc</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA0c4qhfVhK0O+RdZPT9FdZgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADq6QQwMRnSBYTl9HNWpCwrAAAAAASAAACgAAAAEAAAACJZh2iK2RyewWzZE+PgjNEYAAAAqthrTnfQd3Lw0X8ZOnea9tpX/nMWvQy6FAAAAHQDZgSM7ODx7lNsPxLBAVXt2Ym6</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -61,14 +61,14 @@
       DTS:CreationName=""
       DTS:DTSID="{122BAC64-C195-4359-A453-BAA232E658BB}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;SELECT SYSTEMID, APPLICATION_ACCOUNT, Cession, Tdate, CompanyName, CompanyPhone, Address, INN, OGRN, OKB_PARTNER_CODE, AMOUNT, price, ReturnDate, ETL_TIMESTAMP, 'Cession' as TableName&#xA; FROM DBO.CESSION&#xA; WHERE ISNULL(ETL_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_C] +&quot;';&quot;"
+      DTS:Expression="&quot;SELECT ID, SYSTEMID, APPLICATION_ACCOUNT, Cession, Tdate, CompanyName, CompanyPhone, Address, INN, OGRN, OKB_PARTNER_CODE, AMOUNT, price, ReturnDate, ETL_TIMESTAMP, 'DWH.DWH_FIRE.dbo.Cession' as TableName&#xA; FROM DBO.CESSION&#xA; WHERE ISNULL(ETL_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_C] +&quot;';&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="CESSION_ExtractMsSQL">
       <DTS:VariableValue
-        DTS:DataType="8">SELECT SYSTEMID, APPLICATION_ACCOUNT, Cession, Tdate, CompanyName, CompanyPhone, Address, INN, OGRN, OKB_PARTNER_CODE, AMOUNT, price, ReturnDate, ETL_TIMESTAMP, 'Cession' as TableName
+        DTS:DataType="8">SELECT ID, SYSTEMID, APPLICATION_ACCOUNT, Cession, Tdate, CompanyName, CompanyPhone, Address, INN, OGRN, OKB_PARTNER_CODE, AMOUNT, price, ReturnDate, ETL_TIMESTAMP, 'DWH.DWH_FIRE.dbo.Cession' as TableName
  FROM DBO.CESSION
- WHERE ISNULL(ETL_TIMESTAMP, '19000101') &gt;='2022.08.26 14:47:05';</DTS:VariableValue>
+ WHERE ISNULL(ETL_TIMESTAMP, '19000101') &gt;='26.08.2022 14:47:05';</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -104,7 +104,7 @@
           <DTS:Variables />
           <DTS:ObjectData>
             <ExpressionTask
-              Expression="@[User::CESSION_ExtractMsSQL]= &quot;SELECT SYSTEMID, APPLICATION_ACCOUNT, Cession, Tdate, CompanyName, CompanyPhone, Address, INN, OGRN, OKB_PARTNER_CODE, AMOUNT, price, ReturnDate, ETL_TIMESTAMP, 'Cession' as TableName &#xA;FROM DBO.CESSION&#xA; WHERE ISNULL(ETL_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_C] +&quot;';&quot;" />
+              Expression="@[User::CESSION_ExtractMsSQL]= &quot;SELECT ID, SYSTEMID, APPLICATION_ACCOUNT, Cession, Tdate, CompanyName, CompanyPhone, Address, INN, OGRN, OKB_PARTNER_CODE, AMOUNT, price, ReturnDate, ETL_TIMESTAMP, 'DWH.DWH_FIRE.dbo.Cession' as TableName &#xA;FROM DBO.CESSION&#xA; WHERE ISNULL(ETL_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_C] +&quot;';&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -146,7 +146,7 @@
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT        SYSTEMID, APPLICATION_ACCOUNT, Cession, Tdate, CompanyName, CompanyPhone, Address, INN, OGRN, OKB_PARTNER_CODE, AMOUNT, price, ReturnDate, ETL_TIMESTAMP
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT        SYSTEMID, APPLICATION_ACCOUNT, Cession, Tdate, CompanyName, CompanyPhone, Address, INN, OGRN, OKB_PARTNER_CODE, AMOUNT, price, ReturnDate, ETL_TIMESTAMP
 FROM            DBO.CESSION
 WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                     <property
@@ -333,10 +333,19 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="RedirectRow"
                           externalMetadataColumnId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
-                          length="7"
+                          length="24"
                           lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
                           name="TableName"
                           truncationRowDisposition="RedirectRow" />
+                        <outputColumn
+                          refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ID]"
+                          lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ID]"
+                          name="ID"
+                          truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -416,8 +425,12 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                           refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
                           codePage="1251"
                           dataType="str"
-                          length="7"
+                          length="24"
                           name="TableName" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -425,6 +438,11 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                       isErrorOut="true"
                       name="Вывод ошибок источника &quot;OLE DB&quot;">
                       <outputColumns>
+                        <outputColumn
+                          refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ID]"
+                          dataType="i4"
+                          lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ID]"
+                          name="ID" />
                         <outputColumn
                           refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SYSTEMID]"
                           codePage="1251"
@@ -515,7 +533,7 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                           refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
                           codePage="1251"
                           dataType="str"
-                          length="7"
+                          length="24"
                           lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
                           name="TableName" />
                         <outputColumn
@@ -835,7 +853,7 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                     <property
                       dataType="System.Int32"
                       description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -897,14 +915,6 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                           externalMetadataColumnId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ETL_TIMESTAMP]"
                           lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ETL_TIMESTAMP]" />
                         <inputColumn
-                          refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
-                          cachedCodepage="1251"
-                          cachedDataType="str"
-                          cachedLength="7"
-                          cachedName="TableName"
-                          externalMetadataColumnId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
-                          lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]" />
-                        <inputColumn
                           refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           cachedDataType="i4"
                           cachedName="ErrorCode"
@@ -916,6 +926,20 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                           cachedName="ErrorColumn"
                           externalMetadataColumnId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorColumn]"
                           lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ID]"
+                          cachedDataType="i4"
+                          cachedName="ID"
+                          externalMetadataColumnId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ID]"
+                          lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ID]" />
+                        <inputColumn
+                          refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
+                          cachedCodepage="1251"
+                          cachedDataType="str"
+                          cachedLength="24"
+                          cachedName="TableName"
+                          externalMetadataColumnId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Sourse]"
+                          lineageId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -923,12 +947,6 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                           refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ID]"
                           dataType="i4"
                           name="ID" />
-                        <externalMetadataColumn
-                          refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
-                          codePage="1251"
-                          dataType="str"
-                          length="255"
-                          name="TABLENAME" />
                         <externalMetadataColumn
                           refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
                           codePage="1251"
@@ -951,6 +969,12 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
                           dataType="str"
                           length="255"
                           name="ErrorColumn" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Sourse]"
+                          codePage="1251"
+                          dataType="str"
+                          length="255"
+                          name="Sourse" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -1041,12 +1065,12 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
     </DTS:Executable>
   </DTS:Executables>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
@@ -1124,6 +1148,10 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
+          Size="185,42"
+          Id="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession"
+          TopLeft="312,151" />
+        <NodeLayout
           Size="174,42"
           Id="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Назначение ODBC"
           TopLeft="52,153" />
@@ -1131,10 +1159,40 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
           Size="173,42"
           Id="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;"
           TopLeft="148,50" />
-        <NodeLayout
-          Size="185,42"
-          Id="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession"
-          TopLeft="312,151" />
+        <EdgeLayout
+          Id="Package\ETL BKI_Cession\Забрать из DWH_CESSION.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="207,92">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-68,61"
+              Start="0,0"
+              End="-68,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.7353951890034" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.7353951890034"
+                    Point2="0,24.7353951890034"
+                    Point3="-4,24.7353951890034" />
+                  <mssgle:LineSegment
+                    End="-64,24.7353951890034" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-64,24.7353951890034"
+                    Point2="-68,24.7353951890034"
+                    Point3="-68,28.7353951890034" />
+                  <mssgle:LineSegment
+                    End="-68,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\ETL BKI_Cession\Забрать из DWH_CESSION.Paths[Вывод ошибок источника &quot;OLE DB&quot;]"
           TopLeft="262,92">
@@ -1171,42 +1229,42 @@ WHERE         ETL_TIMESTAMP &gt;= '20160701'</property>
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <EdgeLayout
-          Id="Package\ETL BKI_Cession\Забрать из DWH_CESSION.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="207,92">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-68,61"
-              Start="0,0"
-              End="-68,53.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.7353951890034" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.7353951890034"
-                    Point2="0,24.7353951890034"
-                    Point3="-4,24.7353951890034" />
-                  <mssgle:LineSegment
-                    End="-64,24.7353951890034" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-64,24.7353951890034"
-                    Point2="-68,24.7353951890034"
-                    Point3="-68,28.7353951890034" />
-                  <mssgle:LineSegment
-                    End="-68,53.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Ошибки Cession">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Назначение ODBC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL BKI_Cession\Забрать из DWH_CESSION\Источник &quot;OLE DB&quot;">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

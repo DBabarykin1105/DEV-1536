@@ -7,12 +7,12 @@
   DTS:CreatorName="MGC\DBabarykin"
   DTS:DTSID="{A1FC6D13-2C0A-4273-952B-C4E7D9A1709C}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.166"
+  DTS:LastModifiedProductVersion="16.0.845.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="BKI_Holiday"
   DTS:PackageType="5"
-  DTS:VersionBuild="170"
-  DTS:VersionGUID="{65B8848B-376A-4036-A7D4-4D334243053D}">
+  DTS:VersionBuild="171"
+  DTS:VersionGUID="{73080F41-EA74-4BEB-A94D-091BB258C652}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="pwd"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAZBjb0K5GOUiYjoN8pAFmHQAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAAvxl/X3flxcQOGozUc0oq5AAAAAASAAACgAAAAEAAAAI8RWPeovpDpg3Y0/gaxEcEYAAAATOcIABzPq2qfIBjN+ml5W+KFHwgu/WOjFAAAAHM5VdOKRg2YjgY9aBFFPlTJV1UO</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA0c4qhfVhK0O+RdZPT9FdZgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAA9TES1bLecHK0yRCl4L/XMAAAAAASAAACgAAAAEAAAAKP7wYbOqpX57Z6tjlA+opsYAAAA5ZyHU/WVbLKhAZPkoPny6LP2XY7scujXFAAAAORa9DNs+w/cmsFDPaGsM8d7kfbz</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -72,14 +72,14 @@
       DTS:CreationName=""
       DTS:DTSID="{7D78D7EF-1AAF-403E-806F-4769649C9530}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;select INC_ID, APPLICATION_ACCOUNT, DATE_START, DATE_END, ABS_TIMESTAMP, ETL_TIMESTAMP, 'EXT_CONTRACT_HOLIDAY_HIST' as TABLENAME  &#xA;from IGG.EXT_CONTRACT_HOLIDAY_HIST&#xA; where ISNULL(ABS_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_CHH] +&quot;';&quot;"
+      DTS:Expression="&quot;select INC_ID, APPLICATION_ACCOUNT, DATE_START, DATE_END, ABS_TIMESTAMP, ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_CONTRACT_HOLIDAY_HIST' as TABLENAME  &#xA;from IGG.EXT_CONTRACT_HOLIDAY_HIST&#xA; where ISNULL(ABS_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_CHH] +&quot;';&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="EXT_CONTRACT_HOLIDAY_HIST_ExtractMsSQL">
       <DTS:VariableValue
-        DTS:DataType="8">select INC_ID, APPLICATION_ACCOUNT, DATE_START, DATE_END, ABS_TIMESTAMP, ETL_TIMESTAMP, 'EXT_CONTRACT_HOLIDAY_HIST' as TABLENAME  
+        DTS:DataType="8">select INC_ID, APPLICATION_ACCOUNT, DATE_START, DATE_END, ABS_TIMESTAMP, ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_CONTRACT_HOLIDAY_HIST' as TABLENAME  
 from IGG.EXT_CONTRACT_HOLIDAY_HIST
- where ISNULL(ABS_TIMESTAMP, '19000101') &gt;='2022.06.23 16:27:00';</DTS:VariableValue>
+ where ISNULL(ABS_TIMESTAMP, '19000101') &gt;='23.06.2022 16:27:00';</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -115,7 +115,7 @@ from IGG.EXT_CONTRACT_HOLIDAY_HIST
           <DTS:Variables />
           <DTS:ObjectData>
             <ExpressionTask
-              Expression="@[User::EXT_CONTRACT_HOLIDAY_HIST_ExtractMsSQL] =&quot;select INC_ID, APPLICATION_ACCOUNT, DATE_START, DATE_END, ABS_TIMESTAMP, ETL_TIMESTAMP, 'EXT_CONTRACT_HOLIDAY_HIST' as TABLENAME &#xA;from IGG.EXT_CONTRACT_HOLIDAY_HIST&#xA; where ISNULL(ABS_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_CHH] +&quot;';&quot;" />
+              Expression="@[User::EXT_CONTRACT_HOLIDAY_HIST_ExtractMsSQL] =&quot;select INC_ID, APPLICATION_ACCOUNT, DATE_START, DATE_END, ABS_TIMESTAMP, ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_CONTRACT_HOLIDAY_HIST' as TABLENAME &#xA;from IGG.EXT_CONTRACT_HOLIDAY_HIST&#xA; where ISNULL(ABS_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_CHH] +&quot;';&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -157,7 +157,7 @@ from IGG.EXT_CONTRACT_HOLIDAY_HIST
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT        INC_ID, APPLICATION_ACCOUNT, DATE_START, DATE_END, ABS_TIMESTAMP, ETL_TIMESTAMP
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT        INC_ID, APPLICATION_ACCOUNT, DATE_START, DATE_END, ABS_TIMESTAMP, ETL_TIMESTAMP
 FROM            IGG.EXT_CONTRACT_HOLIDAY_HIST
 WHERE         ABS_TIMESTAMP &gt;= '20210701'</property>
                     <property
@@ -258,7 +258,7 @@ WHERE         ABS_TIMESTAMP &gt;= '20210701'</property>
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="RedirectRow"
                           externalMetadataColumnId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
-                          length="25"
+                          length="42"
                           lineageId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TABLENAME]"
                           name="TABLENAME"
                           truncationRowDisposition="RedirectRow" />
@@ -295,7 +295,7 @@ WHERE         ABS_TIMESTAMP &gt;= '20210701'</property>
                           refId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
                           codePage="1251"
                           dataType="str"
-                          length="25"
+                          length="42"
                           name="TABLENAME" />
                       </externalMetadataColumns>
                     </output>
@@ -340,7 +340,7 @@ WHERE         ABS_TIMESTAMP &gt;= '20210701'</property>
                           refId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TABLENAME]"
                           codePage="1251"
                           dataType="str"
-                          length="25"
+                          length="42"
                           lineageId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TABLENAME]"
                           name="TABLENAME" />
                         <outputColumn
@@ -554,7 +554,7 @@ WHERE         ABS_TIMESTAMP &gt;= '20210701'</property>
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                     <property
                       dataType="System.Int32"
                       description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -628,26 +628,26 @@ WHERE         ABS_TIMESTAMP &gt;= '20210701'</property>
                           externalMetadataColumnId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorColumn]"
                           lineageId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]" />
                         <inputColumn
+                          refId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[INC_ID]"
+                          cachedDataType="i8"
+                          cachedName="INC_ID"
+                          externalMetadataColumnId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ID]"
+                          lineageId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[INC_ID]" />
+                        <inputColumn
                           refId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TABLENAME]"
                           cachedCodepage="1251"
                           cachedDataType="str"
-                          cachedLength="25"
+                          cachedLength="42"
                           cachedName="TABLENAME"
-                          externalMetadataColumnId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
+                          externalMetadataColumnId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Sourse]"
                           lineageId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TABLENAME]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
                           refId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ID]"
-                          dataType="i4"
+                          dataType="i8"
                           name="ID" />
-                        <externalMetadataColumn
-                          refId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TABLENAME]"
-                          codePage="1251"
-                          dataType="str"
-                          length="255"
-                          name="TABLENAME" />
                         <externalMetadataColumn
                           refId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[APPLICATION_ACCOUNT]"
                           codePage="1251"
@@ -670,6 +670,12 @@ WHERE         ABS_TIMESTAMP &gt;= '20210701'</property>
                           dataType="str"
                           length="255"
                           name="ErrorColumn" />
+                        <externalMetadataColumn
+                          refId="Package\ETL BKI_Holiday\Забрать из DWH_EXT_CONTRACT_HOLIDAY_HIST\Ошибки EXT_CONTRACT_HOLIDAY_HIST.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Sourse]"
+                          codePage="1251"
+                          dataType="str"
+                          length="255"
+                          name="Sourse" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -760,12 +766,12 @@ WHERE         ABS_TIMESTAMP &gt;= '20210701'</property>
     </DTS:Executable>
   </DTS:Executables>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
