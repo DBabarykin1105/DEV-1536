@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package2"
   DTS:PackageType="5"
-  DTS:VersionBuild="47"
-  DTS:VersionGUID="{ED296419-E4C0-4171-AC23-F918F7579E85}">
+  DTS:VersionBuild="48"
+  DTS:VersionGUID="{5D21602B-5D59-400A-93C9-37F8FA8A3B79}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="pwd"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA0c4qhfVhK0O+RdZPT9FdZgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAAs4XtdnevIMnioYUKV8LKLAAAAAASAAACgAAAAEAAAAGoMPw3I2mXDqxYxJyMLsosYAAAAN7c+3xkOCn6+LD8wDGaIzLKvG46yBceoFAAAABAJCVuVGwDt9a6vPqZTNKSLhL+A</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA0c4qhfVhK0O+RdZPT9FdZgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADE9ZjstiJ9llqOlvbbyAxyAAAAAASAAACgAAAAEAAAAEagkeHyXY/annPAyLwU33wYAAAAT017iEFOPuGFVD8VX6BZkSdqWVHxUlYvFAAAAH6dvVWoZmxfIXM8uV6haQQw1egZ</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -61,27 +61,27 @@
       DTS:CreationName=""
       DTS:DTSID="{76F82C7E-9B0D-4407-91BC-9A990C662660}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY' as TableName &#xA;FROM IGG.EXT_PROLO_HISTORY &#xA;WHERE ISNULL(CREATION_TIMESTAMP, '19000101') = ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;"
+      DTS:Expression="&quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY' as TableName &#xA;FROM IGG.EXT_PROLO_HISTORY &#xA;WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForInsert">
       <DTS:VariableValue
         DTS:DataType="8">SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY' as TableName 
 FROM IGG.EXT_PROLO_HISTORY 
-WHERE ISNULL(CREATION_TIMESTAMP, '19000101') = ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='22.06.2020 16:28:00';</DTS:VariableValue>
+WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='22.06.2020 16:28:00';</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{C49B17D7-D773-441B-85E5-2BFD0C7EDC7E}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP&#xA;, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY_update' as TableName FROM IGG.EXT_PROLO_HISTORY &#xA;WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(UPD_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;"
+      DTS:Expression="&quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP&#xA;, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY_update' as TableName FROM IGG.EXT_PROLO_HISTORY &#xA;WHERE ISNULL(UPD_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForUpdate">
       <DTS:VariableValue
         DTS:DataType="8">SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP
 , 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY_update' as TableName FROM IGG.EXT_PROLO_HISTORY 
-WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(UPD_TIMESTAMP, '19000101') &gt;='22.06.2020 16:28:00';</DTS:VariableValue>
+WHERE ISNULL(UPD_TIMESTAMP, '19000101') &gt;='22.06.2020 16:28:00';</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -132,11 +132,11 @@ WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '190
           DTS:LocaleID="-1"
           DTS:ObjectName="SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForInsert"
           DTS:TaskContact="Expression Task;Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <ExpressionTask
-              Expression="@[User::EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForInsert]= &quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY' as TableName&#xA; FROM IGG.EXT_PROLO_HISTORY&#xA; WHERE ISNULL(CREATION_TIMESTAMP, '19000101') = ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;" />
+              Expression="@[User::EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForInsert]= &quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY' as TableName&#xA; FROM IGG.EXT_PROLO_HISTORY&#xA; WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -148,11 +148,11 @@ WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '190
           DTS:LocaleID="-1"
           DTS:ObjectName="SQL-запрос для извлечения из DWH_EXT_PROLO_HISTORY_ForUpdate"
           DTS:TaskContact="Expression Task;Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <ExpressionTask
-              Expression="@[User::EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForUpdate]= &quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY_update' as TableName&#xA; FROM IGG.EXT_PROLO_HISTORY&#xA; WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '19000101') AND ISNULL(UPD_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;" />
+              Expression="@[User::EXT_CONTRACT_PROLO_HISTORY_ExtractMsSQL_ForUpdate]= &quot;SELECT INC_ID, ZVNUM, APPLICATION_ACCOUNT, TERM, AMOUNT, STATUS, REGISTRATIONDATE, EXECUTIONDATE, CREATION_TIMESTAMP, UPD_TIMESTAMP, GETDATE() AS ETL_TIMESTAMP, 'DWH.DWH_FIRE.igg.EXT_PROLO_HISTORY_update' as TableName&#xA; FROM ISNULL(UPD_TIMESTAMP, '19000101') &gt;='&quot; + (DT_WSTR,20) @[User::MSA_ETL_TimeStamp_PH] +&quot;';&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -164,7 +164,7 @@ WHERE ISNULL(CREATION_TIMESTAMP, '19000101') &lt;&gt; ISNULL(UPD_TIMESTAMP, '190
           DTS:LocaleID="-1"
           DTS:ObjectName="Update MSA_EXT_PROLO_HISTORY"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -2041,7 +2041,7 @@ WHERE         CREATION_TIMESTAMP &gt;= '20210701'</property>
           DTS:LocaleID="-1"
           DTS:ObjectName="Удаление из MSA_stage_ext_prolo_history"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
